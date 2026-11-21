@@ -8,6 +8,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -15,16 +16,21 @@ function Navbar() {
   };
 
   return (
-    <nav>
-      <h2>TeamTask</h2>
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <h2>TeamTask</h2>
+      </div>
 
-      {user && (
-        <div>
-          <span>{user.email}</span>
-
-          <button onClick={handleLogout}>
+      {isAuthenticated && user ? (
+        <div className="navbar-actions">
+          <span className="user-email">{user.email}</span>
+          <button onClick={handleLogout} className="btn btn-danger">
             Logout
           </button>
+        </div>
+      ) : (
+        <div className="navbar-actions">
+          <a href="/login" className="btn btn-outline">Login</a>
         </div>
       )}
     </nav>
